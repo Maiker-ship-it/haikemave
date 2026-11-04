@@ -1328,3 +1328,11 @@
                 }
             }, 150);
         });
+
+        // 加载完成后隐藏 loading
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                var l = document.getElementById('loading');
+                if (l) l.classList.add('hide');
+            }, 300);
+        });

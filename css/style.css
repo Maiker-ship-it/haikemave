@@ -4,6 +4,28 @@
             box-sizing: border-box;
             font-family: "Microsoft Yahei", sans-serif;
         }
+        #loading {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(135deg, #1a3a5c 0%, #2d5a7b 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 99999;
+            transition: opacity 0.5s;
+        }
+        #loading.hide { opacity: 0; pointer-events: none; }
+        .loading-text {
+            color: #ffd89b;
+            font-size: 22px;
+            font-weight: bold;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+        }
         body {
             min-height: 100vh;
             background-color: #1a3a4a;
