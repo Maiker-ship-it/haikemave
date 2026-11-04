@@ -1,0 +1,245 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>海洋消消乐</title>
+    <link rel="stylesheet" href="css/style.css?v=23">
+</head>
+<body>
+<div id="bgVideoMenu" class="bg-static" style="background-image:url('img/bg-menu.jpg')"></div>
+<div id="bgVideoLevel" class="bg-static" style="background-image:url('img/bg-level.png');display:none"></div>
+<div id="bgVideoGame" class="bg-static" style="background-image:url('img/bg-endless.jpg');display:none"></div>
+<div id="musicBtn"></div>
+<div id="settingsBtn" title="设置"></div>
+<div class="modal-wrap" id="settingsModal">
+    <div class="modal-panel" style="min-width:360px;">
+        <h3 style="text-align:center;margin-bottom:20px;">⚙️ 设置</h3>
+        <div style="margin-bottom:15px;">
+            <label style="display:block;margin-bottom:5px;color:#333;font-size:14px;">亮度 <span style="color:#999;font-size:12px;">(推荐80%)</span></label>
+            <input type="range" id="brightnessSlider" min="30" max="100" value="100" style="width:100%;">
+        </div>
+        <div style="margin-bottom:15px;">
+            <label style="display:block;margin-bottom:5px;color:#333;font-size:14px;">音乐音量 <span style="color:#999;font-size:12px;">(推荐30%)</span></label>
+            <input type="range" id="musicVolumeSlider" min="0" max="100" value="30" style="width:100%;">
+        </div>
+        <div style="margin-bottom:15px;">
+            <label style="display:block;margin-bottom:5px;color:#333;font-size:14px;">音效音量 <span style="color:#999;font-size:12px;">(推荐60%)</span></label>
+            <input type="range" id="sfxVolumeSlider" min="0" max="100" value="60" style="width:100%;">
+        </div>
+        <div style="text-align:center;margin-top:20px;display:flex;gap:10px;justify-content:center;">
+            <button class="base-btn reset-btn" id="resetSettings">一键重置</button>
+            <button class="base-btn resume-btn" id="closeSettings">关闭</button>
+        </div>
+    </div>
+</div>
+<div class="modal-wrap" id="firstVisitModal" style="display:flex;z-index:200;text-align:center;">
+    <div class="modal-panel">
+        <h3>🎵 欢迎来到海洋消消乐</h3>
+        <br>
+        <p>点击右上角海螺按钮开启音乐</p>
+        <p style="font-size:13px;color:#aaa;margin-top:8px;">右键海螺按钮可切换曲目</p>
+        <br>
+        <button class="base-btn resume-btn" id="closeFirstVisit">知道了</button>
+    </div>
+</div>
+    <!-- 主菜单 -->
+    <div id="mainMenu">
+        <div class="main-title">海洋消消乐</div>
+        <div class="menu-btn-group">
+            <button class="menu-btn" id="btnStartGame">开始游戏</button>
+            <button class="menu-btn" id="btnShowRule">游戏规则</button>
+            <button class="menu-btn" id="btnShowFeedback">游戏反馈</button>
+        </div>
+    </div>
+
+    <!-- 关卡选择页面 -->
+    <div id="levelSelectPage">
+        <div class="level-page-wrap">
+            <h2 class="level-page-title">选择关卡</h2>
+            <div class="level-grid" id="levelGrid"></div>
+            <button class="menu-btn level-back-btn" id="levelBackMain">返回主页</button>
+        </div>
+    </div>
+
+    <!-- 限时模式选择弹窗 -->
+    <div class="modal-wrap" id="timeSelectModal" style="display:none;z-index:110;text-align:center;">
+        <div class="modal-panel">
+            <h3>⏱ 限时模式</h3>
+            <br>
+            <p>选择游戏时长</p>
+            <br>
+            <div style="display:flex;gap:15px;justify-content:center;flex-wrap:wrap;">
+                <div style="text-align:center;">
+                    <button class="base-btn resume-btn time-option" data-time="30">30秒</button>
+                    <p style="font-size:12px;margin-top:5px;" id="best30">最高: 0</p>
+                </div>
+                <div style="text-align:center;">
+                    <button class="base-btn resume-btn time-option" data-time="45">45秒</button>
+                    <p style="font-size:12px;margin-top:5px;" id="best45">最高: 0</p>
+                </div>
+                <div style="text-align:center;">
+                    <button class="base-btn resume-btn time-option" data-time="60">60秒</button>
+                    <p style="font-size:12px;margin-top:5px;" id="best60">最高: 0</p>
+                </div>
+            </div>
+            <br>
+            <button class="base-btn exit-btn" id="closeTimeSelect">取消</button>
+        </div>
+    </div>
+
+    <!-- 游戏页面 -->
+    <div id="gamePage">
+        <div class="game-wrap">
+            <div class="game-header">
+                <div class="info-text">模式：<span id="gameModeText">闯关</span></div>
+                <div class="info-text">关卡：<span id="curLevelText">1</span></div>
+                <div class="info-text">分数：<span id="score">0</span></div>
+                <div class="info-text" id="targetLabel">目标分：<span id="targetScore">0</span></div>
+                <div class="info-text" id="stepLabel">剩余步数：<span id="stepLeft">30</span></div>
+                <div class="info-text">已用步数：<span id="usedStep">0</span></div>
+                <button class="base-btn" id="btnPause">暂停</button>
+            </div>
+            <div id="board"></div>
+        </div>
+    </div>
+
+    <!-- 进入关卡弹窗提示 -->
+    <div class="modal-wrap gameenter-tip-modal" id="gameEnterTipModal">
+        <div class="modal-panel">
+            <h3>关卡提示</h3>
+            <br>
+            <p id="gameEnterTipContent"></p>
+            <br>
+            <button class="base-btn resume-btn" id="closeGameEnterTip">开始游戏</button>
+        </div>
+    </div>
+
+    <!-- 全部通关弹窗 -->
+    <div class="modal-wrap win-all-modal" id="winAllModal">
+        <div class="modal-panel">
+            <h2>🎉恭喜通关全部关卡！</h2>
+            <p>本项目所有闯关关卡已全部完成</p>
+            <br>
+            <button class="base-btn resume-btn" id="closeWinAll">确定</button>
+        </div>
+    </div>
+
+    <!-- 暂停弹窗 -->
+    <div class="modal-wrap pause-modal" id="pauseModal">
+        <div class="modal-panel">
+            <h3>游戏暂停</h3>
+            <div id="speedArea">
+                <p style="text-align:center;margin-bottom:8px;">选择动画倍数</p>
+                <div class="speed-select-area">
+                    <button class="base-btn speed-btn" data-sp="1.0">1.0x</button>
+                    <button class="base-btn speed-btn" data-sp="1.5">1.5x</button>
+                    <button class="base-btn speed-btn" data-sp="1.75">1.75x</button>
+                    <button class="base-btn speed-btn" data-sp="2.0">2.0x</button>
+                </div>
+            </div>
+            <button class="base-btn resume-btn" id="btnResume">继续游戏</button>
+
+            <button class="base-btn restart-btn" id="btnRestartInPause">重新开始本局</button>
+            <button class="base-btn exit-btn" id="btnExitGame">退出到关卡选择</button>
+        </div>
+    </div>
+
+    <!-- 游戏结束弹窗 -->
+    <div class="modal-wrap gameover-modal" id="gameOverModal">
+        <div class="modal-panel gameover-panel">
+            <div class="gameover-icon" id="gameOverIcon">💔</div>
+            <h3 id="gameOverTitle">游戏结束</h3>
+            <div id="starRating" style="font-size:36px;text-align:center;margin:10px 0;letter-spacing:8px;"></div>
+            <p id="gameOverDesc"></p>
+            <div id="gameOverStats"></div>
+            <div class="gameover-btn-group">
+                <button class="base-btn restart-btn" id="btnModalRestart">重新开始</button>
+                <button class="base-btn exit-btn" id="btnModalBackLevel">返回关卡</button>
+                <button class="base-btn next-btn" id="btnModalNextLevel">下一关</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 失败画面遮罩（沉入海底效果） -->
+    <div id="failOverlay">
+        <div class="fail-bubble b1"></div>
+        <div class="fail-bubble b2"></div>
+        <div class="fail-bubble b3"></div>
+    </div>
+
+    <!-- 游戏规则弹窗 -->
+    <div class="modal-wrap rule-modal" id="ruleModal">
+        <div class="rule-box">
+            <h3>游戏规则</h3>
+            <br>
+            <div class="rule-two-part">
+                <div class="rule-col">
+                    <h4>闯关模式</h4>
+                    <p>1.交换方块，3个及以上同色消除得分</p>
+                    <p>2.在有限步数内达到【目标分数】即可通关</p>
+                    <p>3.步数耗尽，未达到目标分则闯关失败</p>
+                    <p>4.通关后自动解锁下一关卡</p>
+                    <p>&nbsp;</p>
+                    <h4>限时模式</h4>
+                    <p>1.选择30/45/60秒</p>
+                    <p>2.时间结束游戏结束</p>
+                    <p>3.记录历史最高分</p>
+                </div>
+                <div class="rule-col">
+                    <h4>无尽模式</h4>
+                    <p>1.9×9大棋盘，无步数上限</p>
+                    <p>2.不断消除方块获取分数</p>
+                    <p>3.统计总分数与已使用步数</p>
+                    <p>4.没有通关条件，可以一直游玩</p>
+                    <p>&nbsp;</p>
+                    <h4>特殊方块</h4>
+                    <p>1.4连消除→发光方块（消除一行/列）</p>
+                    <p>2.5连或L型6连→终极方块（消除同色）</p>
+                    <p>3.特殊方块互换有强力效果</p>
+                </div>
+            </div>
+            <br>
+            <button class="base-btn" id="btnCloseRule">关闭</button>
+        </div>
+    </div>
+
+    <!-- 反馈弹窗 -->
+    <div class="modal-wrap feedback-modal" id="feedbackModal">
+        <div class="feedback-box">
+            <h3>游戏反馈</h3>
+            <textarea id="feedbackTextarea" style="width:100%;height:120px;padding:8px;" placeholder="请输入你的反馈意见..."></textarea>
+            <div class="feedback-btn-group">
+                <button class="base-btn" id="btnCloseFeedback">关闭</button>
+                <button class="base-btn resume-btn" id="btnSubmitFeedback">提交</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 提交成功弹窗 -->
+    <div class="modal-wrap success-modal" id="successModal">
+        <div class="modal-panel">
+            <h3>感谢反馈！</h3>
+            <p style="margin:12px 0 20px 0">您的反馈我们已经收到</p>
+            <button class="base-btn" id="btnCloseSuccess">确定</button>
+        </div>
+    </div>
+
+    <!-- 无可消除方块提示弹窗 -->
+    <div class="modal-wrap" id="noMatchModal" style="display:none;z-index:115;text-align:center;">
+        <div class="modal-panel">
+            <h3>棋盘无法消除</h3>
+            <p style="margin:12px 0 20px 0">当前棋盘已经没有可消除的方块了<br>请重新洗牌或重新开始本局</p>
+            <div class="gameover-btn-group">
+                <button class="base-btn resume-btn" id="noMatchShuffle">重新洗牌</button>
+                <button class="base-btn restart-btn" id="noMatchRestart">重新开始本局</button>
+                <button class="base-btn exit-btn" id="noMatchCancel">取消</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/script.js?v=13"></script>
+</body>
+</html>

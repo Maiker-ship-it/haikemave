@@ -1,0 +1,705 @@
+﻿* {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft Yahei", sans-serif;
+        }
+        body {
+            min-height: 100vh;
+            background-color: #1a3a4a;
+        }
+
+        /* ========== 主菜单 ========== */
+        video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+        .bg-static {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            z-index: -1;
+        }
+        #bgVideo {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+        #mainMenu {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            gap: 40px;
+            background: transparent;
+            position: relative;
+        }
+        .main-title {
+            font-size: 72px;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 0 2px 12px rgba(0,40,60,0.8), 0 0 30px rgba(100,220,255,0.4);
+            letter-spacing: 8px;
+        }
+        .menu-btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+        .menu-btn {
+            width: 280px;
+            height: 70px;
+            line-height: 70px;
+            padding: 0;
+            font-size: 22px;
+            border: none;
+            background: url('../img/btn-long.png') center center / 100% 100% no-repeat;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-shadow: 0 2px 6px rgba(0,30,50,0.8);
+            letter-spacing: 4px;
+            box-sizing: border-box;
+        }
+        .menu-btn:hover {
+            filter: brightness(1.15);
+            transform: translateY(-2px);
+        }
+        .menu-btn:active {
+            transform: translateY(1px) scale(0.97);
+        }
+
+        /* ========== 关卡选择页面 ========== */
+        #levelSelectPage {
+            display: none;
+            min-height: 100vh;
+            padding: 16vh 20px 20px;
+            background: transparent;
+            justify-content: center;
+        }
+        .level-page-wrap {
+            max-width: 1050px;
+            margin: 0 auto;
+            background: transparent;
+            padding: 0 50px 50px;
+            display: flex;
+            flex-direction: column;
+            min-height: 60vh;
+        }
+        .level-page-title {
+            text-align: center;
+            font-size: 42px;
+            margin-bottom: 40px;
+            color: #5a4a2a;
+            text-shadow: 0 1px 2px rgba(255,255,255,0.4);
+            letter-spacing: 8px;
+        }
+        .level-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 16px;
+            justify-content: center;
+            flex: 1;
+            align-content: center;
+        }
+        .level-item:nth-child(6) {
+            grid-column-start: auto;
+        }
+        .level-item {
+            aspect-ratio: 1/1;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            font-weight: bold;
+            cursor: pointer;
+            border: 2px solid rgba(255,255,255,0.4);
+            background: linear-gradient(180deg, rgba(120,180,190,0.8), rgba(70,130,150,0.8));
+            color: #fff;
+            transition: 0.2s;
+            text-shadow: 0 1px 4px rgba(0,30,50,0.5);
+        }
+        .level-item {
+            aspect-ratio: 1/1;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            border: 2px solid rgba(255,255,255,0.4);
+            background: linear-gradient(180deg, rgba(120,180,190,0.8), rgba(70,130,150,0.8));
+            color: #fff;
+            transition: 0.2s;
+            text-shadow: 0 1px 4px rgba(0,30,50,0.5);
+        }
+        .level-item.unlock {
+            background: url('../img/level-unlock.png') center center / 100% 100% no-repeat;
+            border: none;
+        }
+        .level-item.unlock:hover {
+            transform: scale(1.06);
+            filter: brightness(1.1);
+        }
+        .level-item.endless-special {
+            background: url('../img/level-endless.png') center center / 100% 100% no-repeat;
+            border: none;
+        }
+        .level-item.lock {
+            background: url('../img/lock.png') center center / 100% 100% no-repeat;
+            color: transparent;
+            cursor: not-allowed;
+            border: none;
+        }
+        .level-back-btn {
+            margin-top: auto;
+            width: 320px;
+            aspect-ratio: 1120 / 280;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: auto;
+            margin-right: auto;
+            background: url('../img/btn-long.png') center center / 100% 100% no-repeat;
+            border: none;
+            cursor: pointer;
+            font-size: 22px;
+            color: #fff;
+            text-shadow: 0 2px 6px rgba(0,30,50,0.8);
+            letter-spacing: 4px;
+        }
+
+        /* ========== 游戏界面 ========== */
+        #gamePage {
+            display: none;
+            padding: 14vh 20px 20px;
+            min-height: 100vh;
+            background: transparent;
+            justify-content: center;
+        }
+        .game-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+        .game-header {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+            background: rgba(20,50,65,0.55);
+            padding: 10px 20px;
+            border-radius: 12px;
+            backdrop-filter: blur(6px);
+            max-width: 90vw;
+        }
+        .info-text {
+            font-size: 17px;
+            color: #fff;
+            text-shadow: 0 1px 3px rgba(0,30,50,0.6);
+        }
+        .info-text span {
+            font-weight: bold;
+            color: #ffe8a0;
+        }
+        .base-btn {
+            padding: 8px 28px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            color: #fff;
+            background: url('../img/btn-short.png') center center / cover no-repeat;
+            transition: all 0.18s ease;
+            text-shadow: 0 1px 3px rgba(0,30,50,0.7);
+            white-space: nowrap;
+        }
+        .base-btn:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.15);
+        }
+        .base-btn:active {
+            transform: translateY(1px) scale(0.96);
+        }
+        #board {
+            display: inline-block;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: none;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+            touch-action: none;
+            background: rgba(20,50,65,0.35);
+            padding: 12px;
+            border-radius: 16px;
+            backdrop-filter: blur(3px);
+        }
+        .row {
+            display: flex;
+        }
+        .cell {
+            padding: 0;
+            cursor: pointer;
+        }
+        .cell.invalid {
+            visibility: hidden;
+            pointer-events: none;
+        }
+        .block {
+            width: 100%;
+            height: 100%;
+            border-radius: 6px;
+            position: relative;
+            transition: all 0.15s;
+            background-size: cover;
+            background-position: center;
+        }
+        @keyframes popOut {
+            0%   { transform: scale(1); opacity: 1; }
+            40%  { transform: scale(1.25); opacity: 0.9; }
+            100% { transform: scale(0); opacity: 0; }
+        }
+        .block.popping {
+            animation: popOut 0.22s ease-in forwards;
+        }
+        @keyframes physicsDrop {
+            0%   { transform: translateY(-150%); }
+            55%  { transform: translateY(3%); }
+            75%  { transform: translateY(-1.5%); }
+            100% { transform: translateY(0); }
+        }
+        .block.falling {
+            animation: physicsDrop 0.4s cubic-bezier(0.5, 0, 0.8, 0.4) forwards;
+        }
+        /* 选中高亮 */
+        .block.glow {
+            box-shadow: 0 0 12px rgba(100,200,255,0.8), 0 0 20px rgba(100,200,255,0.4);
+        }
+        .block.ultimate {
+            box-shadow: 0 0 15px rgba(255,215,0,0.8), 0 0 25px rgba(255,215,0,0.5);
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0%,100% { box-shadow: 0 0 15px rgba(255,215,0,0.8), 0 0 25px rgba(255,215,0,0.5); }
+            50% { box-shadow: 0 0 25px rgba(255,215,0,1), 0 0 40px rgba(255,215,0,0.7); }
+        }
+        .block.selected {
+            box-shadow: 0 0 0 3px #ffe8a0, 0 0 14px rgba(255,230,140,0.8);
+        }
+        /* 交换失败抖动动画 */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-4px); }
+            75% { transform: translateX(4px); }
+        }
+        .block.shake {
+            animation: shake 0.25s ease-in-out;
+        }
+        /* 提示闪烁动画 */
+        @keyframes hintBlink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.45; }
+        }
+        .block.hint-blink {
+            animation: hintBlink 0.6s infinite;
+        }
+
+        /* ==========全局音乐按钮========== */
+        #musicBtn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 3px solid #fff;
+            cursor: pointer;
+            z-index: 999;
+            background: url('../img/music-btn.png') center/cover no-repeat;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        #musicBtn.playing {
+            animation: spin 4s linear infinite;
+        }
+        #musicBtn.paused {
+            animation-play-state: paused;
+        }
+        @keyframes spin {
+            from { transform: rotate(0); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* ========== 设置按钮 ========== */
+        #settingsBtn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            width: 60px;
+            height: 60px;
+            cursor: pointer;
+            z-index: 999;
+            background: url('../img/settings.png') center/contain no-repeat;
+        }
+        #settingsBtn:hover { filter: brightness(1.2); }
+        #settingsModal .modal-panel { min-width: 360px; }
+        input[type=range] {
+            -webkit-appearance: none;
+            height: 8px;
+            border-radius: 4px;
+            background: #ddd;
+            outline: none;
+        }
+        .reset-btn {
+            background: url('../img/btn-short.png') center/cover no-repeat;
+            color: #fff;
+            border: none;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #409eff;
+            cursor: pointer;
+        }
+
+        /* ========== 弹窗通用 ========== */
+        .modal-wrap {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 99;
+        }
+        .modal-panel {
+            background: linear-gradient(180deg, #e8e0c8, #d8d0b8);
+            padding: 32px;
+            border-radius: 14px;
+            min-width: 380px;
+            max-width: 90%;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+            border: 3px solid #8a9a8a;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        .modal-close-x {
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        /* 进入关卡提示弹窗 */
+        .gameenter-tip-modal {
+            z-index: 110;
+            text-align: center;
+        }
+        /* 全部通关弹窗 */
+        .win-all-modal {
+            z-index: 120;
+            text-align: center;
+        }
+        /* 暂停弹窗 */
+        .pause-modal .modal-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .pause-modal h3 {
+            text-align: center;
+        }
+        .speed-select-area {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .speed-btn {
+            width: 100px;
+            height: 40px;
+            border: none;
+            background: url('../img/speed-btn.png') center/cover no-repeat;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 8px;
+        }
+        .speed-btn.active {
+            filter: brightness(1.2);
+            box-shadow: 0 0 10px rgba(255,230,140,0.8);
+        }
+
+        /* 游戏结束弹窗 */
+        
+        #starRating {
+            color: #FFD700;
+            text-shadow: 0 0 10px rgba(255,215,0,0.5);
+        }
+        .gameover-modal {
+            z-index: 105;
+            text-align: center;
+        }
+        .gameover-btn-group {
+            margin-top: 20px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        /* ===== 失败画面（沉入海底） ===== */
+        #failOverlay {
+            position: fixed;
+            inset: 0;
+            z-index: 103;
+            display: none;
+            pointer-events: none;
+            background:
+                radial-gradient(ellipse at 50% 120%, rgba(8, 48, 90, 0.55), rgba(4, 28, 60, 0.78) 70%),
+                linear-gradient(180deg, rgba(10, 55, 100, 0.25), rgba(4, 28, 60, 0.85));
+            animation: failDive 1.2s ease-in forwards;
+        }
+        @keyframes failDive {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        .fail-bubble {
+            position: absolute;
+            bottom: -60px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 30%, rgba(180, 230, 255, 0.5), rgba(120, 190, 235, 0.12) 60%, transparent 70%);
+            animation: bubbleRise 3s linear infinite;
+        }
+        .fail-bubble.b1 { left: 12%; width: 26px; height: 26px; animation-duration: 2.8s; }
+        .fail-bubble.b2 { left: 42%; width: 16px; height: 16px; animation-duration: 3.6s; animation-delay: 0.8s; }
+        .fail-bubble.b3 { left: 76%; width: 34px; height: 34px; animation-duration: 4.2s; animation-delay: 1.5s; }
+        @keyframes bubbleRise {
+            0% { transform: translateY(0) scale(0.7); opacity: 0; }
+            15% { opacity: 0.9; }
+            100% { transform: translateY(-110vh) scale(1.15); opacity: 0; }
+        }
+
+        /* 结束弹窗面板动画 */
+        .gameover-panel {
+            animation: popIn 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        @keyframes popIn {
+            0% { transform: scale(0.7); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .gameover-icon {
+            font-size: 72px;
+            text-align: center;
+            margin-bottom: 6px;
+            line-height: 1;
+        }
+        .gameover-icon.lose {
+            animation: iconShake 0.7s ease-in-out;
+        }
+        .gameover-icon.win {
+            animation: iconFloat 2s ease-in-out infinite;
+        }
+        @keyframes iconShake {
+            0%, 100% { transform: translateY(0) rotate(0); }
+            20% { transform: translateY(-14px) rotate(-8deg); }
+            40% { transform: translateY(6px) rotate(7deg); }
+            60% { transform: translateY(-8px) rotate(-5deg); }
+            80% { transform: translateY(4px) rotate(3deg); }
+        }
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        #gameOverStats {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 14px;
+            flex-wrap: wrap;
+        }
+        #gameOverStats .stat-item {
+            background: rgba(255, 255, 255, 0.55);
+            border: 1px solid #9db8d2;
+            border-radius: 10px;
+            padding: 8px 14px;
+            min-width: 84px;
+            text-align: center;
+        }
+        #gameOverStats .stat-item .stat-label {
+            font-size: 12px;
+            color: #5a7a99;
+            display: block;
+        }
+        #gameOverStats .stat-item .stat-value {
+            font-size: 20px;
+            font-weight: bold;
+            color: #1f3b57;
+            display: block;
+            margin-top: 2px;
+        }
+        #gameOverStats .stat-item.stat-warn {
+            background: rgba(245, 108, 108, 0.12);
+            border-color: #f56c6c;
+        }
+        #gameOverStats .stat-item.stat-warn .stat-value {
+            color: #d33;
+        }
+        /* 规则弹窗 */
+        .rule-modal {
+            z-index: 102;
+        }
+        .rule-box {
+            background: linear-gradient(180deg, #e8e0c8, #d8d0b8);
+            width: 560px;
+            max-width: 90%;
+            padding: 30px;
+            border-radius: 14px;
+            border: 3px solid #8a9a8a;
+        }
+        .rule-two-part {
+            display: flex;
+            gap: 24px;
+        }
+        .rule-col {
+            flex: 1;
+        }
+        .feedback-modal {
+            z-index: 103;
+        }
+        .feedback-box {
+            background: linear-gradient(180deg, #e8e0c8, #d8d0b8);
+            padding: 30px;
+            border-radius: 14px;
+            width: 460px;
+            max-width: 90%;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            border: 3px solid #8a9a8a;
+        }
+        .feedback-btn-group {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+        .success-modal {
+            z-index: 104;
+            text-align: center;
+        }
+
+        /* ========== 移动端适配 ========== */
+        html, body {
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 44px;
+                letter-spacing: 4px;
+            }
+            .menu-btn {
+                width: 82vw;
+                max-width: 300px;
+                height: 60px;
+                line-height: 60px;
+                font-size: 20px;
+            }
+            .level-back-btn {
+                width: 82vw;
+                max-width: 300px;
+                font-size: 20px;
+            }
+            #levelSelectPage {
+                padding: 0;
+                justify-content: center;
+                min-height: 100vh;
+            }
+            .level-page-wrap {
+                padding: 14vh 20px 20px;
+                width: 100%;
+                background: transparent;
+                display: flex;
+                flex-direction: column;
+                min-height: 70vh;
+            }
+            .level-page-title {
+                font-size: 26px;
+                margin-bottom: 18px;
+                color: #5a4a2a;
+            }
+            .level-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 14px;
+                flex: 1;
+                align-content: center;
+            }
+            .level-item {
+                font-size: 22px;
+            }
+            #musicBtn, #settingsBtn {
+                width: 46px;
+                height: 46px;
+                top: 12px;
+            }
+            #musicBtn { right: 12px; }
+            #settingsBtn { left: 12px; }
+            .modal-panel {
+                min-width: 0 !important;
+                width: 92vw;
+                padding: 22px 18px;
+            }
+            #settingsModal .modal-panel { min-width: 0 !important; }
+            .rule-box, .feedback-box {
+                width: 92vw;
+                padding: 20px 16px;
+            }
+            .rule-two-part {
+                flex-direction: column;
+                gap: 14px;
+            }
+            .game-header {
+                gap: 8px 14px;
+                padding: 8px 12px;
+                width: 100%;
+            }
+            .info-text { font-size: 13px; }
+            .base-btn { padding: 6px 16px; font-size: 14px; }
+            #gamePage {
+                padding: 11vh 8px 12px;
+                align-items: flex-start;
+                justify-content: center;
+                min-height: 100vh;
+            }
+            #board { padding: 8px; }
+            .gameover-icon { font-size: 52px; }
+        }
+
+        @media (max-width: 380px) {
+            .main-title { font-size: 36px; }
+            .level-grid { grid-template-columns: repeat(3, 1fr); }
+            .info-text { font-size: 12px; }
+        }
