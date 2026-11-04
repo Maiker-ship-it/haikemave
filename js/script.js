@@ -51,7 +51,7 @@
             if (!soundEnabled) return;
             try {
                 if (!sfxCache[name]) {
-                    sfxCache[name] = new Audio('audio/' + name + '.mp3');
+                    sfxCache[name] = new Audio('audio/' + name + '.mp4');
                     sfxCache[name].volume = sfxVolume;
                 }
                 sfxCache[name].currentTime = 0;
@@ -67,7 +67,7 @@
             }
             if (bgmAudio) { bgmAudio.pause(); }
             try {
-                bgmAudio = new Audio('audio/' + name + '.mp3');
+                bgmAudio = new Audio('audio/' + name + '.mp4');
                 bgmAudio.loop = true;
                 bgmAudio.volume = 0.3;
                 currentBgm = name;
