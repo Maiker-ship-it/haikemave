@@ -1331,19 +1331,23 @@
 
         // 预加载所有资源，完成后隐藏 loading
         (function preload() {
-            var toLoad = [];
             var audioNames = ['bgm-endless','bgm-level','bgm-menu','bgm-menu2','bgm-menu3','sfx-click','sfx-match','sfx-transition','sfx-win','方块交换成功音效'];
             var imgNames = ['bg-menu.jpg','bg-level.png','bg-endless.jpg','终极方块.png','btn-long.png','btn-short.png','music-btn.png','lock.png','speed-btn.png','level-unlock.png','level-endless.png','settings.png','发光水草.png','发光珊瑚.png','发光水母.png','发光鲸鱼.png','发光小鱼.png','发光星星.png'];
             for (var i = 0; i < 6; i++) imgNames.push('blocks/block'+i+'.png');
             var total = audioNames.length + imgNames.length;
             var done = 0;
+            var bar = document.getElementById('loadingBar');
+            var pct = document.getElementById('loadingPercent');
             function finish() {
                 done++;
+                var p = Math.round(done/total*100);
+                if (bar) bar.style.width = p + '%';
+                if (pct) pct.textContent = p + '%';
                 if (done >= total) {
                     setTimeout(function() {
                         var l = document.getElementById('loading');
                         if (l) l.classList.add('hide');
-                    }, 200);
+                    }, 300);
                 }
             }
             audioNames.forEach(function(n) {
@@ -1359,9 +1363,9 @@
                 im.onload = finish;
                 im.onerror = finish;
             });
-            // 超时兜底 8 秒
+            // 超时兜底 10 秒
             setTimeout(function() {
                 var l = document.getElementById('loading');
                 if (l) l.classList.add('hide');
-            }, 8000);
+            }, 10000);
         })();
